@@ -1,0 +1,201 @@
+import React, { useState } from 'react';
+
+const EmployeeDashboard = () => {
+  const [activeNav, setActiveNav] = useState('myTasks');
+  const [tasks, setTasks] = useState([
+    { id: 1, project: 'Website Redesign', manager: 'Sarah Williams', allocated: 40, remaining: 15, progress: 65 },
+    { id: 2, project: 'Mobile App Design', manager: 'Robert Brown', allocated: 20, remaining: 5, progress: 75 },
+    { id: 3, project: 'Database Optimization', manager: 'Sarah Williams', allocated: 30, remaining: 20, progress: 35 },
+    { id: 4, project: 'User Testing', manager: 'Michael Chen', allocated: 15, remaining: 10, progress: 35 }
+  ]);
+
+  const renderContent = () => {
+    switch(activeNav) {
+      case 'myTasks':
+        return (
+          <div className="table-container">
+            <h2>My Tasks</h2>
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Manager</th>
+                  <th>Allocated Hours</th>
+                  <th>Remaining Hours</th>
+                  <th>Progress</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tasks.map(task => (
+                  <tr key={task.id}>
+                    <td>{task.project}</td>
+                    <td>{task.manager}</td>
+                    <td>{task.allocated}h</td>
+                    <td>{task.remaining}h</td>
+                    <td>
+                      <div className="progress-container">
+                        <div className="progress-bar">
+                          <div 
+                            className="progress-fill" 
+                            style={{width: `${task.progress}%`}}
+                          ></div>
+                        </div>
+                        <span>{task.progress}%</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button className="action-btn update-btn">
+                        <i className="fas fa-edit"></i> Update
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      case 'raiseTicket':
+        return (
+          <div className="form-container">
+            <h2>Raise a Query/Ticket</h2>
+            <form className="ticket-form">
+              <div className="form-group">
+                <label>Query Type</label>
+                <select>
+                  <option>Technical Issue</option>
+                  <option>Resource Request</option>
+                  <option>Clarification Needed</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Subject</label>
+                <input type="text" placeholder="Brief subject of your query" />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <textarea placeholder="Please describe your issue in detail"></textarea>
+              </div>
+              <div className="form-group">
+                <label>Priority</label>
+                <select>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                  <option>Urgent</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Attachment (if any)</label>
+                <input type="file" />
+              </div>
+              <button type="submit" className="submit-btn">Submit Ticket</button>
+            </form>
+          </div>
+        );
+      case 'status':
+        return (
+          <div className="status-container">
+            <h2>My Status & Performance</h2>
+            <div className="status-cards">
+              <div className="status-card">
+                <h3>Overall Productivity</h3>
+                <div className="status-value">82%</div>
+                <div className="status-comparison">+7% from last month</div>
+              </div>
+              <div className="status-card">
+                <h3>Tasks Completed</h3>
+                <div className="status-value">24/28</div>
+                <div className="status-comparison">86% completion rate</div>
+              </div>
+              <div className="status-card">
+                <h3>Avg. Time per Task</h3>
+                <div className="status-value">4.2h</div>
+                <div className="status-comparison">-0.8h from last month</div>
+              </div>
+            </div>
+            
+            <div className="performance-chart">
+              <h3>Weekly Performance</h3>
+              <div className="chart-placeholder">
+                <p>Performance chart visualization would appear here</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'aiBot':
+        return (
+          <div className="ai-bot-container">
+            <h2>AI Assistant</h2>
+            <div className="chat-interface">
+              <div className="chat-messages">
+                <div className="message bot-message">
+                  <div className="message-content">
+                    <p>Hello! I'm your TaskMant AI assistant. How can I help you today?</p>
+                  </div>
+                </div>
+              </div>
+              <div className="chat-input">
+                <input type="text" placeholder="Type your question here..." />
+                <button><i className="fas fa-paper-plane"></i></button>
+              </div>
+            </div>
+            
+            <div className="quick-questions">
+              <h4>Quick Questions</h4>
+              <div className="question-chips">
+                <div className="question-chip">How do I update my task progress?</div>
+                <div className="question-chip">Where can I find project resources?</div>
+                <div className="question-chip">How to request time off?</div>
+                <div className="question-chip">Who is my project manager?</div>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return <div>Select an option from the navigation</div>;
+    }
+  };
+
+  return (
+    <div className="dashboard">
+      <nav className="employee-nav">
+        <button 
+          className={activeNav === 'myTasks' ? 'active' : ''}
+          onClick={() => setActiveNav('myTasks')}
+        >
+          <i className="fas fa-tasks"></i>
+          <span>My Tasks</span>
+        </button>
+        <button 
+          className={activeNav === 'raiseTicket' ? 'active' : ''}
+          onClick={() => setActiveNav('raiseTicket')}
+        >
+          <i className="fas fa-question-circle"></i>
+          <span>Raise a Ticket</span>
+        </button>
+        <button 
+          className={activeNav === 'status' ? 'active' : ''}
+          onClick={() => setActiveNav('status')}
+        >
+          <i className="fas fa-chart-pie"></i>
+          <span>Status & Performance</span>
+        </button>
+        <button 
+          className={activeNav === 'aiBot' ? 'active' : ''}
+          onClick={() => setActiveNav('aiBot')}
+        >
+          <i className="fas fa-robot"></i>
+          <span>AI Assistant</span>
+        </button>
+      </nav>
+      
+      <main className="dashboard-content">
+        {renderContent()}
+      </main>
+    </div>
+  );
+};
+
+export default EmployeeDashboard;
