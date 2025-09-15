@@ -141,7 +141,6 @@ import SignUP from './components/SignUP';
 import Dashboard from './components/Dashboard';
 import ManagerDashboard from './components/ManagerDashboard';
 import EmployeeDashboard from './components/EmployeeDashboard';
-import TaskUpdateModal from './components/TaskUpdateModal'; // ✅ New
 
 // Protected Route Component
 const ProtectedRoute = ({ user, children }) => {
@@ -242,14 +241,14 @@ function App() {
           />
 
           {/* New Task Update Route */}
-          <Route 
+          {/* <Route 
             path="/tasks/update/:taskId" 
             element={
               <ProtectedRoute user={user}>
                 <TaskUpdateModal tasks={tasks} setTasks={setTasks} />
               </ProtectedRoute>
             } 
-          />
+          /> */}
 
           {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
