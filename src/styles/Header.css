@@ -1,119 +1,3 @@
-/* Header.css
-.landing-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  transition: all 0.3s ease;
-}
-
-.landing-header.scrolled {
-  padding: 0.7rem 2rem;
-  background-color: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(10px);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #2684FF;
-  transition: all 0.3s ease;
-}
-
-.logo i {
-  margin-right: 0.5rem;
-  font-size: 2rem;
-  transition: transform 0.3s ease;
-}
-
-.logo:hover i {
-  transform: rotate(15deg);
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 1rem;
-}
-
-.nav-btn {
-  padding: 0.5rem 1.5rem;
-  border: none;
-  background: none;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.nav-btn::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #2684FF;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s ease;
-}
-
-.nav-btn.active::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-.nav-btn.active {
-  background-color: #2684FF;
-  color: white;
-}
-
-.nav-btn:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-
-@media (max-width: 768px) {
-  .landing-header {
-    padding: 1rem;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .landing-header.scrolled {
-    padding: 0.8rem 1rem;
-  }
-  
-  .nav-buttons {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .logo {
-    font-size: 1.5rem;
-  }
-  
-  .logo i {
-    font-size: 1.7rem;
-  }
-  
-  .nav-btn {
-    padding: 0.4rem 1rem;
-    font-size: 0.9rem;
-  }
-} */
 
 
 
@@ -326,3 +210,143 @@
     padding: 0.5rem;
   }
 }
+
+
+
+/* Header.css - Add these styles to your existing file */
+
+/* Dashboard Header Styles (for logged-in state) */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.dashboard-header.scrolled {
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+}
+
+.user-role-badge {
+  background: #e8f0ff;
+  color: #2684FF;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+/* User Profile Styles */
+.user-profile {
+  position: relative;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #172B4D;
+  transition: all 0.3s ease;
+}
+
+.profile-btn:hover {
+  background: #f0f2f5;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 280px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  margin-top: 0.5rem;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.profile-info {
+  display: flex;
+  padding: 1.5rem;
+  border-bottom: 1px solid #eaeaea;
+  gap: 1rem;
+}
+
+.profile-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1rem;
+}
+
+.profile-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #5E6C84;
+}
+
+.menu-items {
+  padding: 0.5rem 0;
+}
+
+.menu-items button {
+  width: 100%;
+  text-align: left;
+  padding: 0.8rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #172B4D;
+  transition: all 0.3s ease;
+}
+
+.menu-items button:hover {
+  background: #f0f2f5;
+}
+
+.menu-items button i {
+  width: 20px;
+}
+
+/* Responsive Design for Dashboard Header */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 1rem;
+  }
+  
+  .user-role-badge {
+    display: none;
+  }
+  
+  .profile-btn span {
+    display: none;
+  }
+  
+  .profile-menu {
+    width: 90vw;
+    right: 5vw;
+  }
+}
+
+

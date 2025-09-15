@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import '../styles/Header.css'; // Ensure Header styles are imported
 
-const EmployeeDashboard = () => {
+const EmployeeDashboard = ({ user, onLogout }) => {
   const [activeNav, setActiveNav] = useState('myTasks');
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [tasks, setTasks] = useState([
     { id: 1, project: 'Website Redesign', manager: 'Sarah Williams', allocated: 40, remaining: 15, progress: 65 },
     { id: 2, project: 'Mobile App Design', manager: 'Robert Brown', allocated: 20, remaining: 5, progress: 75 },
     { id: 3, project: 'Database Optimization', manager: 'Sarah Williams', allocated: 30, remaining: 20, progress: 35 },
     { id: 4, project: 'User Testing', manager: 'Michael Chen', allocated: 15, remaining: 10, progress: 35 }
   ]);
+
+  const handleNavigation = (nav) => {
+    setActiveNav(nav);
+  };
 
   const renderContent = () => {
     switch(activeNav) {
@@ -115,7 +121,6 @@ const EmployeeDashboard = () => {
                 <div className="status-comparison">-0.8h from last month</div>
               </div>
             </div>
-            
             <div className="performance-chart">
               <h3>Weekly Performance</h3>
               <div className="chart-placeholder">
@@ -141,7 +146,6 @@ const EmployeeDashboard = () => {
                 <button><i className="fas fa-paper-plane"></i></button>
               </div>
             </div>
-            
             <div className="quick-questions">
               <h4>Quick Questions</h4>
               <div className="question-chips">
@@ -160,37 +164,74 @@ const EmployeeDashboard = () => {
 
   return (
     <div className="dashboard">
+      {/* Dashboard Header with Logo and Profile */}
+      <header className="dashboard-header">
+        <div className="logo" style={{cursor: 'pointer'}}>
+          <i className="fas fa-tasks"></i>
+          <span>TaskMant</span>
+        </div>
+
+        <div className="user-profile">
+          <button 
+            className="profile-btn"
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+          >
+            <i className="fas fa-user-circle"></i>
+            <span>{user?.name}</span>
+            <i className="fas fa-caret-down"></i>
+          </button>
+
+          {showProfileMenu && (
+            <div className="profile-menu">
+              <div className="profile-info">
+                <img src={user?.profilePhoto || 'https://randomuser.me/api/portraits/men/45.jpg'} alt={user?.name} />
+                <div>
+                  <h4>{user?.name}</h4>
+                  <p>{user?.role || 'Employee'}</p>
+                  <p>{user?.email}</p>
+                </div>
+              </div>
+              <div className="menu-items">
+                <button>Profile</button>
+                <button>Settings</button>
+                <button onClick={onLogout}>Logout</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </header>
+
       <nav className="employee-nav">
         <button 
-          className={activeNav === 'myTasks' ? 'active' : ''}
-          onClick={() => setActiveNav('myTasks')}
+          className={activeNav === 'myTasks' ? 'active' : ''} 
+          onClick={() => handleNavigation('myTasks')}
         >
           <i className="fas fa-tasks"></i>
           <span>My Tasks</span>
         </button>
         <button 
-          className={activeNav === 'raiseTicket' ? 'active' : ''}
-          onClick={() => setActiveNav('raiseTicket')}
+          className={activeNav === 'raiseTicket' ? 'active' : ''} 
+          onClick={() => handleNavigation('raiseTicket')}
         >
           <i className="fas fa-question-circle"></i>
           <span>Raise a Ticket</span>
         </button>
         <button 
-          className={activeNav === 'status' ? 'active' : ''}
-          onClick={() => setActiveNav('status')}
+          className={activeNav === 'status' ? 'active' : ''} 
+          onClick={() => handleNavigation('status')}
         >
           <i className="fas fa-chart-pie"></i>
           <span>Status & Performance</span>
         </button>
         <button 
-          className={activeNav === 'aiBot' ? 'active' : ''}
-          onClick={() => setActiveNav('aiBot')}
+          className={activeNav === 'aiBot' ? 'active' : ''} 
+          onClick={() => handleNavigation('aiBot')}
         >
           <i className="fas fa-robot"></i>
           <span>AI Assistant</span>
         </button>
       </nav>
-      
+
       <main className="dashboard-content">
         {renderContent()}
       </main>
@@ -199,3 +240,7 @@ const EmployeeDashboard = () => {
 };
 
 export default EmployeeDashboard;
+
+
+
+

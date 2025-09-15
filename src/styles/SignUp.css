@@ -1,4 +1,4 @@
-RegistrationPage.css
+
 .registration-page {
   min-height: 100vh;
   display: flex;
@@ -426,95 +426,6 @@ RegistrationPage.css
 .registration-form > *:nth-child(7) { animation-delay: 0.7s; }
 .registration-form > *:nth-child(8) { animation-delay: 0.8s; }
 
-/* ////////////////////////////// */
-
-/* Add these styles to your existing SignUp.css */
-
-/* Profile upload styles */
-/* .profile-upload-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.profile-preview {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #f0f2f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 2px dashed #d0d5dd;
-}
-
-.profile-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.profile-preview i {
-  font-size: 2.5rem;
-  color: #9aa2b1;
-}
-
-.profile-upload {
-  flex: 1;
-}
-
-.profile-upload-btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  background: #2684FF;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  margin-bottom: 0.5rem;
-}
-
-.profile-upload-btn:hover {
-  background: #0065FF;
-}
-
-.profile-upload-text {
-  display: block;
-  font-size: 0.8rem;
-  color: #5E6C84;
-}
-
-
-.input-with-icon select {
-  width: 100%;
-  padding: 1rem 1rem 1rem 3rem;
-  border: 2px solid #DFE1E6;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: #F7F9FC;
-  appearance: none;
-}
-
-.input-with-icon select:focus {
-  outline: none;
-  border-color: #2684FF;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(38, 132, 255, 0.1);
-}
-
-@media (max-width: 768px) {
-  .profile-upload-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-} */
-
-/* ///////////////////////////////////////// */
-/* Add these styles to your existing SignUp.css */
 
 /* Profile upload styles at the top */
 .profile-photo-top {

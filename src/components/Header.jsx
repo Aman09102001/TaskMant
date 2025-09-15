@@ -1,49 +1,24 @@
-// import React from 'react';
-// import '../styles/Header.css';
-// const Header = ({ activeTab, setActiveTab, scrollPosition }) => {
-//   return (
-//     <header className={`landing-header ${scrollPosition > 50 ? 'scrolled' : ''}`}>
-//       <div className="logo">
-//         <i className="fas fa-tasks"></i>
-//         <span>TaskMant</span>
-//       </div>
-//       <nav className="nav-buttons">
-//         <button 
-//           className={`nav-btn ${activeTab === 'login' ? 'active' : ''}`}
-//           onClick={() => setActiveTab('login')}
-//         >
-//           Login
-//         </button>
-//         <button 
-//           className={`nav-btn ${activeTab === 'signup' ? 'active' : ''}`}
-//           onClick={() => setActiveTab('signup')}
-//         >
-//           Sign Up
-//         </button>
-//       </nav>
-//     </header>
-//   );
-// };
-
-// export default Header;
-
-
-
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
 
-const Header = ({ activeTab, setActiveTab, scrollPosition, isLoggedIn, user, onLogout }) => {
+const Header = ({ scrollPosition, isLoggedIn, user, onLogout }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const navigate = useNavigate();
 
-  return (
-    <header className={`landing-header ${scrollPosition > 50 ? 'scrolled' : ''} ${isLoggedIn ? 'logged-in' : ''}`}>
-      <div className="logo">
-        <i className="fas fa-tasks"></i>
-        <span>TaskMant</span>
-        {isLoggedIn && <span className="user-role-badge">{user?.role}</span>}
-      </div>
-      
-      {isLoggedIn ? (
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  if (isLoggedIn) {
+    return (
+      <header className={`dashboard-header ${scrollPosition > 50 ? 'scrolled' : ''}`}>
+        <div className="logo" onClick={() => handleNavigation('/dashboard')} style={{cursor: 'pointer'}}>
+          <i className="fas fa-tasks"></i>
+          <span>TaskMant</span>
+          <span className="user-role-badge">{user?.role}</span>
+        </div>
+        
         <div className="user-profile">
           <button 
             className="profile-btn"
@@ -65,32 +40,49 @@ const Header = ({ activeTab, setActiveTab, scrollPosition, isLoggedIn, user, onL
                 </div>
               </div>
               <div className="menu-items">
-                <button><i className="fas fa-user"></i> My Profile</button>
-                <button><i className="fas fa-cog"></i> Settings</button>
-                <button><i className="fas fa-question-circle"></i> Help</button>
-                <button onClick={onLogout}><i className="fas fa-sign-out-alt"></i> Logout</button>
+                <button onClick={() => handleNavigation('/profile')}>
+                  <i className="fas fa-user"></i> My Profile
+                </button>
+                <button onClick={() => handleNavigation('/settings')}>
+                  <i className="fas fa-cog"></i> Settings
+                </button>
+                <button onClick={() => handleNavigation('/help')}>
+                  <i className="fas fa-question-circle"></i> Help
+                </button>
+                <button onClick={onLogout}>
+                  <i className="fas fa-sign-out-alt"></i> Logout
+                </button>
               </div>
             </div>
           )}
         </div>
-      ) : (
-        <nav className="nav-buttons">
-          <button 
-            className={`nav-btn ${activeTab === 'login' ? 'active' : ''}`}
-            onClick={() => setActiveTab('login')}
-          >
-            Login
-          </button>
-          <button 
-            className={`nav-btn ${activeTab === 'signup' ? 'active' : ''}`}
-            onClick={() => setActiveTab('signup')}
-          >
-            Sign Up
-          </button>
-        </nav>
-      )}
+      </header>
+    );
+  }
+
+  return (
+    <header className={`landing-header ${scrollPosition > 50 ? 'scrolled' : ''}`}>
+      <div className="logo" onClick={() => handleNavigation('/')} style={{cursor: 'pointer'}}>
+        <i className="fas fa-tasks"></i>
+        <span>TaskMant</span>
+      </div>
+      <nav className="nav-buttons">
+        <button 
+          className="nav-btn"
+          onClick={() => handleNavigation('/login')}
+        >
+          Login
+        </button>
+        <button 
+          className="nav-btn"
+          onClick={() => handleNavigation('/signup')}
+        >
+          Sign Up
+        </button>
+      </nav>
     </header>
   );
 };
 
 export default Header;
+

@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import Header from './Header';
-import '../styles/Dashboard.css';
 import ManagerDashboard from './ManagerDashboard';
 import EmployeeDashboard from './EmployeeDashboard';
+import "../styles/Dashboard.css"
 
-const Dashboard = () => {
-  const [user, setUser] = useState({
-    name: 'John Doe',
-    email: 'john.doe@company.com',
-    role: 'Manager', // Change to 'Employee' to see the employee view
-    profilePhoto: 'https://randomuser.me/api/portraits/men/45.jpg'
-  });
-
-  const handleLogout = () => {
-    alert('Logging out...');
-    // Here you would typically clear authentication tokens and redirect to login
-  };
+const Dashboard = ({ user, onLogout }) => {
+  // Role-based redirection
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="app">
-      <Header user={user} onLogout={handleLogout} />
-      {user.role === 'Manager' ? <ManagerDashboard /> : <EmployeeDashboard />}
+      <Header 
+        isLoggedIn={true}
+        user={user}
+        onLogout={onLogout}
+        scrollPosition={0}
+      />
+      
+      {user.role === 'Manager' ? (
+        <ManagerDashboard user={user} />
+      ) : (
+        <EmployeeDashboard user={user} />
+      )}
     </div>
   );
 };

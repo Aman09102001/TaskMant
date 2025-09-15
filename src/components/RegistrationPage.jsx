@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import '../styles/RegistrationPage.css';
 
-const RegistrationPage = ({ onNavigate, setActiveTab }) => {
+const RegistrationPage = () => {
   const [formData, setFormData] = useState({
     companyName: '',
     companyDomain: '',
@@ -11,14 +12,16 @@ const RegistrationPage = ({ onNavigate, setActiveTab }) => {
     agreeToTerms: false,
     companyLogo: null
   });
-
   const [logoPreview, setLogoPreview] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
     
     if (type === 'file') {
-      const file = e.target.files[0];
+      const file = files[0];
       if (file) {
         setFormData(prev => ({
           ...prev,
@@ -39,18 +42,56 @@ const RegistrationPage = ({ onNavigate, setActiveTab }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.companyName) {
+      newErrors.companyName = 'Company name is required';
+    }
+    
+    if (!formData.companyDomain) {
+      newErrors.companyDomain = 'Company domain is required';
+    } else if (!/^[a-zA-Z0-9-]+$/.test(formData.companyDomain)) {
+      newErrors.companyDomain = 'Domain can only contain letters, numbers, and hyphens';
+    }
     
     if (!formData.agreeToTerms) {
-      alert('Please agree to the terms and conditions');
-      return;
+      newErrors.agreeToTerms = 'You must agree to the terms and conditions';
     }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-    console.log('Company registration data:', formData);
-    // Yahan aap actual registration logic implement karenge
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsLoading(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      console.log('Company registration data:', formData);
+      alert('Company registered successfully!');
+      navigate('/signup');
+    } catch (error) {
+      setErrors({ submit: 'Registration failed. Please try again.' });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -62,11 +103,7 @@ const RegistrationPage = ({ onNavigate, setActiveTab }) => {
         <div className="shape shape-3"></div>
       </div>
 
-      <Header 
-        activeTab="company-register" 
-        setActiveTab={setActiveTab} 
-        scrollPosition={0} 
-      />
+      <Header isLoggedIn={false} scrollPosition={0} />
       
       <div className="registration-container">
         <div className="registration-content">
@@ -132,6 +169,13 @@ const RegistrationPage = ({ onNavigate, setActiveTab }) => {
               </div>
 
               <form className="registration-form" onSubmit={handleSubmit}>
+                {errors.submit && (
+                  <div className="error-message submit-error">
+                    <i className="fas fa-exclamation-circle"></i>
+                    {errors.submit}
+                  </div>
+                )}
+
                 {/* Company Logo Upload - Circular */}
                 <div className="form-group">
                   <label htmlFor="companyLogo">Company Logo</label>
@@ -170,9 +214,11 @@ const RegistrationPage = ({ onNavigate, setActiveTab }) => {
                       placeholder="Your Company Name"
                       value={formData.companyName}
                       onChange={handleInputChange}
+                      className={errors.companyName ? 'error' : ''}
                       required
                     />
                   </div>
+                  {errors.companyName && <span className="error-text">{errors.companyName}</span>}
                 </div>
 
                 <div className="form-group">
@@ -186,12 +232,14 @@ const RegistrationPage = ({ onNavigate, setActiveTab }) => {
                       placeholder="yourcompany"
                       value={formData.companyDomain}
                       onChange={handleInputChange}
+                      className={errors.companyDomain ? 'error' : ''}
                       required
                     />
                   </div>
                   <div className="domain-hint">
                     Your workspace URL: {formData.companyDomain ? `${formData.companyDomain}.taskmant.com` : 'yourcompany.taskmant.com'}
                   </div>
+                  {errors.companyDomain && <span className="error-text">{errors.companyDomain}</span>}
                 </div>
 
                 <div className="form-group">
@@ -219,15 +267,29 @@ const RegistrationPage = ({ onNavigate, setActiveTab }) => {
                     <span className="checkmark"></span>
                     I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>
                   </label>
+                  {errors.agreeToTerms && <span className="error-text">{errors.agreeToTerms}</span>}
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-register">
-                  <i className="fas fa-building"></i>
-                  <span>Create Company Account</span>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary btn-register"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin"></i>
+                      Creating Account...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-building"></i>
+                      <span>Create Company Account</span>
+                    </>
+                  )}
                 </button>
 
                 <div className="login-link">
-                  <p>Already have a company account? <button type="button" onClick={() => setActiveTab('login')}>Sign in here</button></p>
+                  <p>Already have a company account? <a href="/login">Sign in here</a></p>
                 </div>
               </form>
             </div>

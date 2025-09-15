@@ -1,118 +1,129 @@
-import React, { useState, useEffect, useRef } from 'react';
+// import React, { useState, useRef, useEffect } from 'react';
+// import Header from './Header';
+// import Footer from './Footer';
+// import MainContent from './MainContent';
+
+// const LandingPage = ({ isLoggedIn, user, onLogout }) => {
+//   const [activeTab, setActiveTab] = useState(null);
+//   const [isVisible, setIsVisible] = useState(false);
+//   const sectionRef = useRef(null);
+//   const [scrollPosition, setScrollPosition] = useState(0);
+
+//   const handleNavigate = (tab) => {
+//     setActiveTab(tab);
+//   };
+
+//   const handleLogin = (e) => {
+//     e.preventDefault();
+//     // Login logic will be implemented later
+//   };
+
+//   const handleSignup = (e) => {
+//     e.preventDefault();
+//     // Signup logic will be implemented later
+//   };
+
+//   const handleScroll = () => {
+//     const position = window.pageYOffset;
+//     setScrollPosition(position);
+
+//     // Check if features section is in viewport
+//     if (sectionRef.current) {
+//       const rect = sectionRef.current.getBoundingClientRect();
+//       setIsVisible(rect.top < window.innerHeight && rect.bottom >= 0);
+//     }
+//   };
+
+//   useEffect(() => {
+//     window.addEventListener('scroll', handleScroll, { passive: true });
+//     return () => {
+//       window.removeEventListener('scroll', handleScroll);
+//     };
+//   }, []);
+
+//   return (
+//     <div className="landing-page">
+//       <Header 
+//         scrollPosition={scrollPosition} 
+//         isLoggedIn={isLoggedIn} 
+//         user={user} 
+//         onLogout={onLogout} 
+//       />
+//       <MainContent 
+//         activeTab={activeTab} 
+//         onNavigate={handleNavigate} 
+//         isVisible={isVisible} 
+//         handleLogin={handleLogin} 
+//         handleSignup={handleSignup} 
+//         sectionRef={sectionRef} 
+//       />
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default LandingPage;
+
+
+
+
+import React, { useState, useRef, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import MainContent from './Maincontent';
+import MainContent from './MainContent';
 
-const LandingPage = ({ onNavigate }) => {
-  const [activeTab, setActiveTab] = useState('login');
+const LandingPage = ({ isLoggedIn, user, onLogout }) => {
+  const [activeTab, setActiveTab] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [isFeaturesVisible, setIsFeaturesVisible] = useState(false);
-  const featuresSectionRef = useRef(null);
 
-  // Handle scroll animation
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Login logic will be implemented later
+  };
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    // Signup logic will be implemented later
+  };
+
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+
+    // Check if features section is in viewport
+    if (sectionRef.current) {
+      const rect = sectionRef.current.getBoundingClientRect();
+      setIsVisible(rect.top < window.innerHeight && rect.bottom >= 0);
+    }
+  };
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  // Intersection Observer for feature cards - FIXED VERSION
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setIsFeaturesVisible(true);
-          }
-        });
-      },
-      { 
-        threshold: 0.3,
-        rootMargin: '0px 0px -100px 0px'
-      }
-    );
-
-    if (featuresSectionRef.current) {
-      observer.observe(featuresSectionRef.current);
-    }
-
-    return () => {
-      if (featuresSectionRef.current) {
-        observer.unobserve(featuresSectionRef.current);
-      }
-    };
-  }, []);
-
-  // Form handling with validation
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log('Login submitted');
-  };
-
-  const handleSignup = (e) => {
-    e.preventDefault();
-    console.log('Signup submitted');
-  };
-
   return (
-    <div className="landing-container">
-      {/* Animated background elements */}
-      <div className="animated-bg">
-        <div className="shape shape-1"></div>
-        <div className="shape shape-2"></div>
-        <div className="shape shape-3"></div>
-      </div>
-
+    <div className="landing-page">
       <Header 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
         scrollPosition={scrollPosition} 
+        isLoggedIn={isLoggedIn} 
+        user={user} 
+        onLogout={onLogout} 
       />
-      
       <MainContent 
-        activeTab={activeTab}
-        onNavigate={onNavigate}
-        isVisible={isFeaturesVisible}
-        handleLogin={handleLogin}
-        handleSignup={handleSignup}
-        sectionRef={featuresSectionRef}
+        activeTab={activeTab} 
+        isVisible={isVisible} 
+        handleLogin={handleLogin} 
+        handleSignup={handleSignup} 
+        sectionRef={sectionRef} 
       />
-
       <Footer />
     </div>
   );
 };
 
 export default LandingPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
