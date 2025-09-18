@@ -71,6 +71,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import MainContent from './MainContent';
+import '../styles/LandingPage.css'
 
 const LandingPage = ({ isLoggedIn, user, onLogout }) => {
   const [activeTab, setActiveTab] = useState(null);

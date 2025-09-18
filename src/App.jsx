@@ -104,13 +104,13 @@ function App() {
 
 
           <Route
-  path="/manager/project-view"
-  element={
-    <RoleBasedRoute user={user} role="Manager">
-      <ProjectView />
-    </RoleBasedRoute>
-  }
-/>
+       path="/manager/project-view"
+      element={
+          <RoleBasedRoute user={user} role="Manager">
+        <  ProjectView />
+        </RoleBasedRoute>
+    }
+  />
 
           <Route 
             path="/employee/*" 
