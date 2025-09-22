@@ -289,6 +289,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import '../styles/LoginPage.css';
+import axios from 'axios';
 
 const LoginPage = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -343,33 +344,34 @@ const LoginPage = ({ onLogin }) => {
     
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+           const response =await axios.post('http://localhost:5000/api/auth/login',{
+            email:formData.email,
+            password:formData.password
+           });
+
+           if(response.data.success){
+            const {user,token}=response.data.data;
+            localStorage.setItem("authToken",token);
+            onLogin(user);
+            navigate("/dashboard")
+           }
+          else{
+            setErrors({ submit: response.data.message || "Login failed" });
+           }
+          }
+           catch(error){
+            setErrors({
+           submit:
+           error.response?.data?.message || error.message || "Login failed",
+          });
+           }
+           finally {
+    setIsLoading(false);
+  }
       
-      let userData;
-      if (formData.email.includes('manager')) {
-        userData = {
-          name: 'John Manager',
-          email: formData.email,
-          role: 'Manager',
-          profilePhoto: 'https://randomuser.me/api/portraits/men/32.jpg'
-        };
-      } else {
-        userData = {
-          name: 'Jane Employee',
-          email: formData.email,
-          role: 'Employee',
-          profilePhoto: 'https://randomuser.me/api/portraits/women/44.jpg'
-        };
-      }
-      
-      onLogin(userData);
-      navigate('/dashboard');
-    } catch (error) {
-      setErrors({ submit: 'Login failed. Please try again.' });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+     
+     
+    };
 
   const handleSocialLogin = (provider) => {
     console.log(`Logging in with ${provider}`);
@@ -509,7 +511,7 @@ const LoginPage = ({ onLogin }) => {
                 </button>
 
                 {/* 🚀 Quick Test Login Buttons */}
-                <div className="quick-login">
+                {/* <div className="quick-login">
                   <p>Quick Test Logins:</p>
                   <button
                     type="button"
@@ -542,7 +544,7 @@ const LoginPage = ({ onLogin }) => {
                   >
                     Login as Employee
                   </button>
-                </div>
+                </div> */}
 
                 <div className="divider">
                   <span>Or continue with</span>

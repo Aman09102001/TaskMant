@@ -803,7 +803,7 @@ const EmployeeDashboard = ({ user, onLogout }) => {
 
   return (
     <div className="dashboard">
-      <header className="dashboard-header">
+      {/* <header className="dashboard-header">
         <div className="logo" style={{cursor: 'pointer'}}>
           <i className="fas fa-tasks"></i>
           <span>TaskMant</span>
@@ -837,7 +837,7 @@ const EmployeeDashboard = ({ user, onLogout }) => {
             </div>
           )}
         </div>
-      </header>
+      </header> */}
 
       <nav className="employee-nav">
         <button 

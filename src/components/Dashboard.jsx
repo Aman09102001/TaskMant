@@ -20,7 +20,7 @@ const Dashboard = ({ user, onLogout }) => {
         scrollPosition={0}
       />
       
-      {user.role === 'Manager' ? (
+      {user.role === 'MANAGER' ? (
         <ManagerDashboard user={user} />
       ) : (
         <EmployeeDashboard user={user} />
